@@ -1,0 +1,36 @@
+.helpContainer {
+  height: 182px;
+  width: 490px;
+  border: 0.5px solid rgba(227, 227, 227, 0.5);
+}
+
+.helpOptions {
+  display: flex;
+  align-items: center;
+  color: #535353;
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.helpOptions:hover {
+  background-color: rgba(227, 227, 227, 0.2);
+}
+
+.helpOptions.selected {
+  background-color: rgb(38, 118, 194, 0.1);
+  color: #2676c2;
+}
+
+.helpOptions.selected .helpDiv {
+  background-color: #2676c2;
+}
+.divMenu {
+  display: flex;
+  margin-left: 10px;
+  align-items: center;
+}
+.helpOptions.selected .textHelp {
+  margin-left: 20px;
+  transition: 0.5s;
+}
