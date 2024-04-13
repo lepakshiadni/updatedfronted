@@ -16,6 +16,9 @@ COPY . .
 # Build the React app
 RUN npm run build
 
+# Display the contents of /app/build
+RUN ls -al /app/build
+
 # Stage 2: Serve the React app with a lightweight HTTP server
 FROM nginx:alpine
 
