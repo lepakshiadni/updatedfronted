@@ -27,7 +27,7 @@ jobs:
       - name: Delete old container
         run: sudo docker rm -f reactjs-frontend-container  
       - name: Run Docker Container
-        run: sudo docker run -d -p 3000:80 --name reactjs-frontend-container lepakshia/updated-reactjs-frontend
+        run: sudo docker run -d -p 3000:80 --name reactjs-frontend-container1 lepakshia/updated-reactjs-frontend
 
 # name: CI/CD Pipeline
 
