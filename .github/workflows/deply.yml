@@ -25,7 +25,7 @@ jobs:
       - name: Pull image from docker hub
         run: sudo docker pull lepakshia/updated-reactjs-frontend:latest
       - name: Delete old container
-        run: sudo docker rm -f reactjs-frontend-container  
+        run: sudo docker rm -f reactjs-updated-container  
       - name: Run Docker Container
         run: sudo docker run -d -p 3000:80 --name reactjs-updated-container lepakshia/updated-reactjs-frontend
  # Additional steps to configure SSH key handling
