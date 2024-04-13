@@ -29,26 +29,26 @@ jobs:
       - name: Run Docker Container
         run: sudo docker run -d -p 3000:80 --name reactjs-frontend-container lepakshia/updated-reactjs-frontend
 
-name: CI/CD Pipeline
+# name: CI/CD Pipeline
 
-on:
-  push:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
 
-jobs:
-  build:
-    runs-on: self-hosted
+# jobs:
+#   build:
+#     runs-on: self-hosted
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+#     steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v2
 
-    - name: Build and push Docker image
-      run: |
-        docker build -t lepakshia/updated-reactjs-frontend:l .
-        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-        docker push lepakshia/updated-reactjs-frontend:l
+#     - name: Build and push Docker image
+#       run: |
+#         docker build -t lepakshia/updated-reactjs-frontend:l .
+#         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+#         docker push lepakshia/updated-reactjs-frontend:l
 
-    - name: Run Docker container
-      run: docker run -d -p 3000:80 lepakshia/updated-reactjs-frontend:l
+#     - name: Run Docker container
+#       run: docker run -d -p 3000:80 lepakshia/updated-reactjs-frontend:l
