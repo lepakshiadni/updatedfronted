@@ -1,33 +1,34 @@
-name: Deploy Node Application 
+name: Deploy Node Application
 
-on: 
+on:
   push:
     branches:
       - main
-      
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Source
         uses: actions/checkout@v4
-      - name: Login to docker hub
-        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}     
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Build Docker Image
-        run: docker build -t lepakshia/updated-reactjs-frontend --build-arg REACT-APP-BASEURL='production' --build-arg BACKEND_URL=${{ secrets.BACKEND_URL }} .  
-      - name: Publish Image to docker hub
-        run: docker push lepakshia/updated-reactjs-frontend:latest 
- 
+        run: docker build -t lepakshia/updated-reactjs-frontend .
+      - name: Publish Image to Docker Hub
+        run: docker push lepakshia/updated-reactjs-frontend:latest
+
   deploy:
     needs: build
-    runs-on: self-hosted 
+    runs-on: ubuntu-latest
     steps:
-      - name: Pull image from docker hub
-        run: sudo docker pull lepakshia/updated-reactjs-frontend:latest
-      - name: Delete old container
-        run: sudo docker rm -f reactjs-frontend-container  
+      - name: Pull Image from Docker Hub
+        run: docker pull lepakshia/updated-reactjs-frontend:latest
+      - name: Stop and Remove Existing Container
+        run: docker stop reactjs-frontend-container1 || true && docker rm reactjs-frontend-container1 || true
       - name: Run Docker Container
-        run: sudo docker run -d -p 3000:80 --name reactjs-frontend-container1 lepakshia/updated-reactjs-frontend
+        run: docker run -d -p 3000:80 --name reactjs-frontend-container1 lepakshia/updated-reactjs-frontend:latest
+
 
 # name: CI/CD Pipeline
 
