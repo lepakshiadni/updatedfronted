@@ -40,7 +40,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-<<<<<<< HEAD
     - name: Checkout code
       uses: actions/checkout@v2
 
@@ -56,24 +55,3 @@ jobs:
 
     - name: Run Docker container
       run: docker run -d -p 3000:80 lepakshia/updated-reactjs-frontend:latest
-=======
-      - name: Checkout Source
-        uses: actions/checkout@v4
-      - name: Login to docker hub
-        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}     
-      - name: Build Docker Image
-        run: docker build -t lepakshia/updated-reactjs-frontend --build-arg REACT-APP-BASEURL='production' --build-arg BACKEND_URL=${{ secrets.BACKEND_URL }} .  
-      - name: Publish Image to docker hub
-        run: docker push lepakshia/updated-reactjs-frontend:latest 
- 
-  deploy:
-    needs: build
-    runs-on: self-hosted 
-    steps:
-      - name: Pull image from docker hub
-        run: sudo docker pull lepakshia/updated-reactjs-frontend:latest
-      - name: Delete old container
-        run: sudo docker rm -f reactjs-frontend-container  
-      - name: Run Docker Container
-        run: sudo docker run -d -p 3000:80 --name reactjs-frontend-container lepakshia/updated-reactjs-frontend
->>>>>>> 3134b7fdad2f5d3f8f04198aa654ea77364a0550
