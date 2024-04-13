@@ -14,20 +14,20 @@ jobs:
       - name: Login to docker hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}     
       - name: Build Docker Image
-        run: docker build -t lepakshia/frontend_reactjs --build-arg REACT-APP-BASEURL='production' --build-arg BACKEND_URL=${{ secrets.BACKEND_URL }} .  
+        run: docker build -t lepakshia/updated-reactjs-frontend .  
       - name: Publish Image to docker hub
-        run: docker push lepakshia/frontend_reactjs:latest 
+        run: docker push lepakshia/updated-reactjs-frontend:latest 
  
   deploy:
     needs: build
     runs-on: self-hosted 
     steps:
       - name: Pull image from docker hub
-        run: sudo docker pull lepakshia/frontend_reactjs:latest
+        run: sudo docker pull lepakshia/updated-reactjs-frontend:latest
       - name: Delete old container
         run: sudo docker rm -f reactjs-frontend-container  
       - name: Run Docker Container
-        run: sudo docker run -d -p 3000:80 --name reactjs-updated-container lepakshia/frontend_reactjs
+        run: sudo docker run -d -p 3000:80 --name reactjs-updated-container lepakshia/updated-reactjs-frontend
  # Additional steps to configure SSH key handling
       - name: Configure SSH
         run: |
