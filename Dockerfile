@@ -1,45 +1,29 @@
-# Use an official Node.js runtime as the base image
-FROM node:alpine3.18 AS build 
+# Use Node.js as base image
+FROM node:latest as builder
 
-ARG REACT-APP-BASEURL
-ARG BACKEND_URL 
-
-ARG REACT-APP-BASEURL=REACT-APP-BASEURL
-ARG BACKEND_URL=BACKEND_URL  
-# Set the working directory in the container
+# Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the working directory
+# Copy package.json and package-lock.json to the container
 COPY package*.json ./
 
 # Install dependencies
 RUN npm install
 
-# Copy the rest of the application code
+# Copy the rest of the application
 COPY . .
 
 # Build the React app
 RUN npm run build
-#--------------------------------------------------->>>>>>>>>>>>>>>>>>>>>>>>>>>>--------------------------------->>>>>>>>>>>>>>>> 
-# Use a second stage for the production environment
-FROM nginx:1.23-alpine
 
-# Remove the default nginx website
-RUN rm -rf /usr/share/nginx/html/*
+# Stage 2: Serve the React app with a lightweight HTTP server
+FROM nginx:alpine
 
-# Copy the build output from the previous stage
-COPY --from=build /app/build /usr/share/nginx/html
-
-# Copy custom nginx configuration file with custom filename
-COPY custom.conf /etc/nginx/nginx.conf
+# Copy the built app from the previous stage
+COPY --from=builder /app/build /usr/share/nginx/html
 
 # Expose port 80 to the outside world
 EXPOSE 80
 
-
-# FROM nginx:1.23-alpine 
-# WORKDIR /usr/share/nginx/html 
-# RUN rm -rf * 
-# COPY --from=build /app/build .
-# EXPOSE 80 
-ENTRYPOINT ["nginx", "-g", "daemon off;" ]
+# Start nginx server
+CMD ["nginx", "-g", "daemon off;"]
