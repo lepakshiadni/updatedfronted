@@ -29,4 +29,5 @@ COPY --from=builder /app/build /usr/share/nginx/html
 EXPOSE 80
 
 # Start nginx server
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
+# CMD ["nginx", "-g", "daemon off;"]
